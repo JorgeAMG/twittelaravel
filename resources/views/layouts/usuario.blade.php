@@ -8,6 +8,8 @@
     <title>TwitteL</title>
     <link rel="stylesheet" href="{{asset('css/usuario.css')}}">
     <link rel="stylesheet" href="{{asset('css/fontawesome-free/css/all.min.css')}}">
+    {{-- ckeditor --}}
+    <script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
 </head>
 
 <body>

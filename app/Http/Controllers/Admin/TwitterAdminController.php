@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Twitter;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 class TwitterAdminController extends Controller
@@ -13,28 +14,12 @@ class TwitterAdminController extends Controller
     {
         return $this->middleware("auth");
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
 
-        $twitters = Twitter::all();
-        return view("admin.inicio", compact("twitters"));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
-        return view("admin.twitter.create");
+
+        return view("twitter.create");
     }
 
     /**
@@ -46,55 +31,41 @@ class TwitterAdminController extends Controller
     public function store(Request $request)
     {
         //
-        $post = $request->validate([
-            "titulo" => "required|max:255",
-            "mensaje" => "required|image",
-            "urlfoto" => "required"
+        $request->validate([
+            "titulo" => "required",
+            "contenido" => "required",
+
         ]);
+        $twitters = new Twitter($request->all());
+        $twitters->save();
+        return redirect("/");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
+        $twitter = Twitter::where("id", $id)->first();
+        return view("twitter.edit", compact("twitter"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
+        $twitter = Twitter::findOrFail($id);
+        $twitter->fill($request->all());
+        $twitter->save();
+        return redirect("/");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
+        $twitter = Twitter::findOrFail($id);
+        $twitter->delete();
+        return redirect("/");
     }
 }

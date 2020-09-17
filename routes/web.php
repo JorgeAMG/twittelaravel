@@ -1,5 +1,6 @@
 <?php
 
+use App\Twitter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,10 +17,9 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
-    return view('usuario.twitter');
+    $twitters = Twitter::paginate(2);
+    return view("usuario.twitter", compact("twitters"));
 });
-
-
 
 
 Route::resource("twitter", "Admin\TwitterAdminController");

@@ -16,13 +16,14 @@
     </div>
 </header>
 <div class="container-fluid">
-    <form method="POST" action="{{route("twitter.store")}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route("twitter.update",$twitter->id)}}">
+        @method('PUT')
         @csrf
 
         <div class="form-group">
             <label class="form-control" for="titulo">Titulo</label>
             <input type="text" name="titulo" class="form-control" id="titulo" placeholder="Titulo..."
-                value="{{ old('titulo') }}">
+                value="{{$twitter->titulo }}">
         </div>
 
         <input type="hidden" name="usuario_id" class="form-control" id="usuario_id" placeholder="usuario"
@@ -30,7 +31,7 @@
 
         <div class="form-group">
             <label class="form-control" for="contenido">Inserta el contenido</label>
-            <textarea class="form-control" name="contenido" id="contenido">{{ old('contenido') }}</textarea>
+            <textarea class="form-control" name="contenido" id="contenido">{{$twitter->contenido }}</textarea>
         </div>
 
         <div class="form-group pt-2">
